@@ -1,0 +1,8 @@
+cd /opt/hadoop
+//以下是使用了相对路径来运行hdfs命令
+bin/hdfs dfs -mkdir /input
+bin/hdfs dfs -put etc/hadoop/* input/
+bin/hdfs dfs -ls /input
+
+bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar wordcount /input /output
+bin/hdfs dfs -cat /output/part-r-00000
