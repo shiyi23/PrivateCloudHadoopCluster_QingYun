@@ -1,0 +1,13 @@
+cd /opt/hadoop
+
+# 生成1000万行数据到 /teraInput 路径中
+bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar teragen 10000000 /teraInput
+
+# 将/teraInput 中生成的1000万行数据排序后存入到 /teraOutput 路径中
+bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar terasort /teraInput /teraOutput
+
+# 针对已排序的 /teraOutput 中的数据，验证每一行的数值要小于下一行
+bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar teravalidate -D mapred.reduce.tasks=8 /teraOutput /teraValidate
+
+# 查看验证的结果
+bin/hdfs dfs -cat /teraValidate/part-r-00000
